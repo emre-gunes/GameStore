@@ -1,0 +1,62 @@
+@model List<GameStore.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="page-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3>Alışveriş Sepeti</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section trending">
+  <div class="container">
+    @if(Model.Any())
+    {
+        <table class="table table-bordered text-white">
+            <thead>
+                <tr>
+                    <th>Resim</th>
+                    <th>Oyun Adı</th>
+                    <th>Fiyat</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody style="background-color: #2a2a2a;">
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td><img src="@item.ImageUrl" style="width: 50px;" /></td>
+                        <td>@item.Title</td>
+                        <td>@item.Price ₺</td>
+                        <td>
+                            <a asp-action="Remove" asp-route-id="@item.GameId" class="btn btn-danger btn-sm">Kaldır</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot style="background-color: #2a2a2a;">
+                <tr>
+                    <th colspan="2" class="text-end">Toplam:</th>
+                    <th>@Model.Sum(c => c.Price) ₺</th>
+                    <th>
+                        <form asp-action="Checkout" method="post">
+                            <button type="submit" class="btn btn-success">Satın Al</button>
+                        </form>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">Sepetiniz boş.</div>
+        <a asp-controller="Home" asp-action="Shop" class="btn btn-primary">Mağazaya Git</a>
+    }
+  </div>
+</div>

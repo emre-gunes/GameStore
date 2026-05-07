@@ -1,0 +1,45 @@
+@model IEnumerable<GameStore.Models.Game>
+
+@{
+    ViewData["Title"] = "Games";
+}
+
+<div class="bg-light rounded h-100 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h6 class="mb-0">Oyunlar</h6>
+        <a asp-action="Create" class="btn btn-primary">Yeni Ekle</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Resim</th>
+                    <th scope="col">Oyun Adı</th>
+                    <th scope="col">Fiyat</th>
+                    <th scope="col">Stok</th>
+                    <th scope="col">Kategori</th>
+                    <th scope="col">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @if(!string.IsNullOrEmpty(item.ImageUrl)) {
+                            <img src="@item.ImageUrl" alt="Game Image" style="width:50px; height:auto;"/>
+                        }
+                    </td>
+                    <td>@item.Title</td>
+                    <td>@item.Price ₺</td>
+                    <td>@item.StockQuantity</td>
+                    <td>@item.Category?.Name</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

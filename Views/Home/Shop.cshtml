@@ -1,0 +1,57 @@
+@model IEnumerable<GameStore.Models.Game>
+
+@{
+    ViewData["Title"] = "Our Shop";
+}
+
+<div class="page-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3>Mağazamız</h3>
+        <span class="breadcrumb"><a asp-action="Index">Ana Sayfa</a> > Mağazamız</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section trending">
+  <div class="container">
+    <ul class="trending-filter">
+      <li>
+        <a asp-action="Shop" class="@(Context.Request.Query["categoryId"].Count == 0 ? "is_active" : "")">Tümünü Göster</a>
+      </li>
+      @foreach(var cat in ViewBag.Categories)
+      {
+          <li>
+              <a asp-action="Shop" asp-route-categoryId="@cat.Id" class="@(Context.Request.Query["categoryId"] == cat.Id.ToString() ? "is_active" : "")">@cat.Name</a>
+          </li>
+      }
+    </ul>
+    <div class="row trending-box">
+        @if(!Model.Any())
+        {
+            <div class="col-12 text-center mt-5 mb-5">
+                <h4 class="text-white">Şu anda bu kategoride veya mağazada hiç oyun bulunmuyor.</h4>
+                <p class="text-white mt-3">Admin paneline giderek yeni oyunlar ekleyebilirsiniz.</p>
+            </div>
+        }
+        @foreach(var item in Model)
+        {
+            <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6">
+                <div class="item">
+                <div class="thumb">
+                    <a asp-action="ProductDetails" asp-route-id="@item.Id"><img src="@item.ImageUrl" alt=""></a>
+                    <span class="price">@item.Price ₺</span>
+                </div>
+                <div class="down-content">
+                    <span class="category">@item.Category?.Name</span>
+                    <h4>@item.Title</h4>
+                    <a asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id"><i class="fa fa-shopping-bag"></i></a>
+                </div>
+                </div>
+            </div>
+        }
+    </div>
+  </div>
+</div>

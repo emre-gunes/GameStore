@@ -1,0 +1,24 @@
+@model GameStore.Models.Category
+
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<div class="bg-light rounded h-100 p-4">
+    <h6 class="mb-4">Kategori Ekle</h6>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Ad</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Açıklama</label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Oluştur</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Listeye Dön</a>
+    </form>
+</div>

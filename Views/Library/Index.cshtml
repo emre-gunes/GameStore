@@ -1,0 +1,60 @@
+@model IEnumerable<GameStore.Models.UserLibrary>
+
+@{
+    ViewData["Title"] = "My Library";
+}
+
+<div class="page-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3>Kütüphanem</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section trending">
+  <div class="container">
+    @if(Model.Any())
+    {
+        <div class="row trending-box">
+            @foreach(var item in Model)
+            {
+                <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6 adv">
+                    <div class="item">
+                    <div class="thumb">
+                        <img src="@item.Game?.ImageUrl" alt="">
+                        <span class="price">Oynama Süresi: @item.PlayTimeInHours saat</span>
+                    </div>
+                    <div class="down-content">
+                        <span class="category">Satın Alım: @item.PurchaseDate.ToString("dd MMM yyyy")</span>
+                        <h4>@item.Game?.Title</h4>
+                        <div class="d-flex justify-content-between mt-3">
+                            <form asp-action="PlayGame" asp-route-id="@item.Id" method="post">
+                                <button type="submit" class="btn btn-primary btn-sm">Oyunu Oyna</button>
+                            </form>
+                            @if(item.PlayTimeInHours < 2)
+                            {
+                                <form asp-action="Refund" asp-route-id="@item.Id" method="post">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bu oyunu iade etmek istediğinize emin misiniz?');">İade Et</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-danger small align-self-center">İade Edilemez</span>
+                            }
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Kütüphaneniz boş.</div>
+        <a asp-controller="Home" asp-action="Shop" class="btn btn-primary">Mağazaya Git</a>
+    }
+  </div>
+</div>
